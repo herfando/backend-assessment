@@ -104,15 +104,13 @@ Acts as a mock external API source for customer data.
 
 ## 🐳 How to Run the Project
 
-### 1. Build and start all services
-
 ```bash
+1. Build and start all services
 docker-compose up --build
 2. Run in detached mode
 docker-compose up -d
 3. Stop all services
 docker-compose down
-
 
 🧪 Testing the System
 1. Check Flask health
@@ -125,21 +123,20 @@ curl "http://localhost:8000/api/customers?page=1&limit=5"
 curl http://localhost:8000/api/customers/1
 
 ✅ Assessment Checklist
- The following features have been implemented and tested:
-- Flask mock server successfully loads JSON data
-- Pagination works on Flask API
-- FastAPI ingestion service successfully fetches and stores data
-- PostgreSQL integration is working properly
-- Docker Compose runs all services successfully
-- All API endpoints are functional and tested
-- Data is successfully persisted and retrievable
-
+The following features have been implemented and tested:
+1. Flask mock server successfully loads JSON data
+2. Pagination works on Flask API
+3. FastAPI ingestion service successfully fetches and stores data
+4. PostgreSQL integration is working properly
+5. Docker Compose runs all services successfully
+6. All API endpoints are functional and tested
+7. Data is successfully persisted and retrievable
 
 🚀 Project Status
 All required components are implemented:
-- Mock API (Flask)
-- Data pipeline (FastAPI)
-- Database storage (PostgreSQL)
-- Docker orchestration
-- Working ingestion flow
+1. Mock API (Flask)
+2. Data pipeline (FastAPI)
+3. Database storage (PostgreSQL)
+4. Docker orchestration
+5. Working ingestion flow
 ```
