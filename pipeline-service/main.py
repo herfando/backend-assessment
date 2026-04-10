@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
+from typing import Optional
+
 from database import SessionLocal, engine, Base
 from models.customer import Customer
 from services.ingestion import ingest_data
@@ -22,13 +25,30 @@ def ingest(db: Session = Depends(get_db)):
     total = ingest_data(db)
     return {"status": "success", "records_processed": total}
 
-# GET ALL
+# GET ALL + SEARCH
 @app.get("/api/customers")
-def get_customers(page: int = 1, limit: int = 10, db: Session = Depends(get_db)):
+def get_customers(
+    page: int = 1,
+    limit: int = 10,
+    search: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
     offset = (page - 1) * limit
 
-    data = db.query(Customer).offset(offset).limit(limit).all()
-    total = db.query(Customer).count()
+    query = db.query(Customer)
+
+    # 🔍 SEARCH (TAMBAHAN)
+    if search:
+        query = query.filter(
+            or_(
+                Customer.first_name.ilike(f"%{search}%"),
+                Customer.last_name.ilike(f"%{search}%"),
+                Customer.email.ilike(f"%{search}%")
+            )
+        )
+
+    total = query.count()
+    data = query.offset(offset).limit(limit).all()
 
     return {
         "data": data,
